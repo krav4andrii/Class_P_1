@@ -41,8 +41,6 @@ class Card:
         else:
             print(f'You hawe not inought money')
 
-
-
 fedor=Bank('Fedor_Ovchinkin')
 nikon=Bank('Nikodim_Rozetkin')
 fedor.info()
