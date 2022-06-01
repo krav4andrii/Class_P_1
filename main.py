@@ -1,15 +1,15 @@
 import uuid
 
 
-class Bank():
+class User():
     default_log='None'
-    def __init__(self,user_name,log=default_log):
-        self.user_name=user_name
+    def __init__(self,name,log=default_log):
+        self.name=name
         self.log=str(log)
         self.card=Card()
     def info(self):
-        print(f'User name:{self.user_name}')
-        return (self.card.info_card())
+        print(f'User name:{self.name}')
+        return (self.card.info())
 
 class Card:
     default_ballance=0
@@ -18,7 +18,7 @@ class Card:
         self.uuid=uuid
         self.ballance=float(ballance)
 
-    def info_card(self):
+    def info(self):
         #Метод виводу інформації по карті
         print(f'You hawe: {self.ballance} usd money')
         print(f'Your card number:{self.uuid}')
@@ -42,8 +42,8 @@ class Card:
             print(f'You hawe not inought money')
             
 
-fedor=Bank('Fedor_Ovchinkin')
-nikon=Bank('Nikodim_Rozetkin')
+fedor=User('Fedor_Ovchinkin')
+nikon=User('Nikodim_Rozetkin')
 fedor.info()
 nikon.info()
 fedor.card.earn_money(100)
