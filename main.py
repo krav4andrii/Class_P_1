@@ -11,16 +11,16 @@ class User():
         return (self.card.info())
 
     def logg(self):
-        return (self.card.loggering())
+        return(self.card.loggering())
 
 class Card:
     default_ballance=0
-    default_uuid=uuid.uuid4()
     default_log=[]
-    def __init__(self,uuid=default_uuid,ballance=default_ballance,log=default_log):
-        self.uuid=uuid
+
+    def __init__(self,ballance=default_ballance,log=default_log):
         self.ballance=float(ballance)
         self.log=log
+
 
     def loggering(self):
         if self.log==[]:
@@ -31,14 +31,14 @@ class Card:
                 print(i)
 
     def info(self):
-        #Метод виводу інформації по карті
+        # Print user's general information
         print(f'You hawe: {self.ballance} usd money')
-        print(f'Your card number:{self.uuid}')
+        print(f'Your card number:{uuid.uuid4()}')
         print(f'You have:{len(self.log)} transaction')
 
 
     def earn_money(self,value):
-        #метод ініціалізаціі певної стартової сумі коштив на карту
+        #проблема з записом в лог - записи дублює в лог обох коростувачів, або ж один лог вийшов на двох
         if value>0:
             self.ballance+=value
             self.log.append(f'You resive {value} usd in your acount,total ballance is: {self.ballance}')
@@ -47,11 +47,13 @@ class Card:
 
 
     def transaction(self,value,recipient):
-        #метод проведення транзакції з карти на отримувача
+        self.recipient=recipient
+        #проблема з форматуванням імені отрімувача, в поточному класі немає аргументу з необхідним значенням
         if value<=self.ballance:
+            print(str(self.recipient))
             self.ballance-=value
             recipient.card.earn_money(value)
-            self.log.append(f'You hawe transacted {value} usd,from your acount, to the {recipient} acout, total ballance'
+            self.log.append(f'You have transacted {value} usd,from your acount, to the {recipient} acount, total ballance'
                             f' is: {self.ballance} usd. ')
         else:
             print(f'You have not enought money')
@@ -59,10 +61,9 @@ class Card:
 
 fedor=User('Fedor_Ovchinkin')
 nikon=User('Nikodim_Rozetkin')
+
+fedor.card.earn_money(100)
+nikon.logg()
+fedor.card.transaction(20.30, nikon)
 fedor.info()
 nikon.info()
-nikon.logg()
-fedor.card.earn_money(100)
-fedor.card.transaction(20,nikon)
-fedor.logg()
-
