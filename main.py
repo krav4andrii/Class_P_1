@@ -31,7 +31,7 @@ class Card:
                 print(i)
 
     def info(self):
-        # Print user's general information
+        # Print user's card general information
         print(f'You hawe: {self.ballance} usd money')
         print(f'Your card number:{uuid.uuid4()}')
         print(f'You have:{len(self.log)} transaction')
@@ -47,23 +47,22 @@ class Card:
 
 
     def transaction(self,value,recipient):
-        self.recipient=recipient
+
         #проблема з форматуванням імені отрімувача, в поточному класі немає аргументу з необхідним значенням
         if value<=self.ballance:
-            print(str(self.recipient))
             self.ballance-=value
             recipient.card.earn_money(value)
-            self.log.append(f'You have transacted {value} usd,from your acount, to the {recipient} acount, total ballance'
+            self.log.append(f'You have transacted {value} usd,from your acount, to the {recipient.name} acount, total ballance'
                             f' is: {self.ballance} usd. ')
         else:
-            print(f'You have not enought money')
+            print(f"You dont have enought money")
             
 
 fedor=User('Fedor_Ovchinkin')
 nikon=User('Nikodim_Rozetkin')
 
 fedor.card.earn_money(100)
+nikon.card.earn_money(200)
+fedor.logg()
+nikon.card.transaction(12,fedor)
 nikon.logg()
-fedor.card.transaction(20.30, nikon)
-fedor.info()
-nikon.info()
