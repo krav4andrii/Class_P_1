@@ -41,19 +41,18 @@ class Card:
         #проблема з записом в лог - записи дублює в лог обох коростувачів, або ж один лог вийшов на двох
         if value>0:
             self.ballance+=value
-            self.log.append(f'You resive {value} usd in your acount,total ballance is: {self.ballance}')
         else:
             print('Error: you cant earn this shit!')
 
 
     def transaction(self,value,recipient):
-
-        #проблема з форматуванням імені отрімувача, в поточному класі немає аргументу з необхідним значенням
+        # Transaction function with loggering in both logs (self and recipient)
         if value<=self.ballance:
             self.ballance-=value
             recipient.card.earn_money(value)
             self.log.append(f'You have transacted {value} usd,from your acount, to the {recipient.name} acount, total ballance'
                             f' is: {self.ballance} usd. ')
+            recipient.card.log.append(f'You resive {value} usd in your acount,total ballance is: {recipient.card.ballance}')
         else:
             print(f"You dont have enought money")
             
@@ -63,6 +62,6 @@ nikon=User('Nikodim_Rozetkin')
 
 fedor.card.earn_money(100)
 nikon.card.earn_money(200)
-fedor.logg()
 nikon.card.transaction(12,fedor)
+nikon.info()
 nikon.logg()
