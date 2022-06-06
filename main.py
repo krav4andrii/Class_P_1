@@ -23,8 +23,9 @@ class Card:
 
 
     def loggering(self):
+        # log function, main problem: logging at one log for two users at same time
         if self.log==[]:
-            print("You hawen't any activity")
+            print("You haven't any activity")
         else:
             print(f'Your log of operations:')
             for i in self.log:
@@ -37,31 +38,33 @@ class Card:
         print(f'You have:{len(self.log)} transaction')
 
 
-    def earn_money(self,value):
+    def earn_money(self,value,trans):
         #проблема з записом в лог - записи дублює в лог обох коростувачів, або ж один лог вийшов на двох
         if value>0:
             self.ballance+=value
+            self.log.append(
+                f'You resive {value} usd in your acount, from {trans.name} acoun total ballance is: {self.ballance}')
         else:
             print('Error: you cant earn this shit!')
 
 
-    def transaction(self,value,recipient):
+    def transaction(self,value,recipient,trans):
         # Transaction function with loggering in both logs (self and recipient)
         if value<=self.ballance:
             self.ballance-=value
-            recipient.card.earn_money(value)
+            recipient.card.earn_money(value,trans)
             self.log.append(f'You have transacted {value} usd,from your acount, to the {recipient.name} acount, total ballance'
                             f' is: {self.ballance} usd. ')
-            recipient.card.log.append(f'You resive {value} usd in your acount,total ballance is: {recipient.card.ballance}')
         else:
             print(f"You dont have enought money")
             
 
 fedor=User('Fedor_Ovchinkin')
 nikon=User('Nikodim_Rozetkin')
+bank=User('Bank')
 
-fedor.card.earn_money(100)
-nikon.card.earn_money(200)
-nikon.card.transaction(12,fedor)
+fedor.card.earn_money(100,bank)
+nikon.card.earn_money(200,bank)
+nikon.card.transaction(12,fedor,nikon)
 nikon.info()
 nikon.logg()
