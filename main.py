@@ -18,11 +18,11 @@ class User():
 
 class Card:
     default_ballance=0
-    default_log=[]
 
-    def __init__(self,ballance=default_ballance,log=default_log):
+
+    def __init__(self,ballance=default_ballance,log=None):
         self.ballance=float(ballance)
-        self.log=log
+        self.log=log or []
 
 
     def loggering(self):
@@ -70,8 +70,9 @@ fedor=User('Fedor_Ovchinkin')
 nikon=User('Nikodim_Rozetkin')
 bank=User('Bank')
 
-fedor.info()
 fedor.card.earn_money(100,bank)
-nikon.card.transaction(40,fedor,nikon)
+fedor.card.transaction(200,nikon,fedor)
+fedor.card.transaction(40,nikon,fedor)
 fedor.info()
+fedor.log()
 nikon.log()
