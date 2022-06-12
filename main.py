@@ -12,32 +12,40 @@ class User():
         self.card.info()
 
 
-    def log(self):
+    def log(self,H):
         #function connecting loggering function of the card with class User
-        self.card.loggering()
+        self.card.loggering(H)
 
 class Card:
     default_ballance=0
-
 
     def __init__(self,ballance=default_ballance,log=None):
         self.ballance=float(ballance)
         self.log=log or []
 
 
-    def loggering(self):
-        # log function, main problem: logging at one log for two users at same time
-        if self.log==[]:
+    def loggering(self,H):
+        # log function, veriable "H" means have much operations shoud function print, if 'H' = -1 - all log are printing.
+        lenght=len(self.log)
+        if lenght==0:
             print("You haven't any activity")
         else:
             print(f'Your log of operations:')
-            for i in self.log:
-                print(i)
+            if H==-1:
+                for i in range(lenght-1,-1,-1):
+                    print(self.log[i])
+            else:
+                for i in range(lenght-1,-1,-1):
+                    if i==lenght-1-H:
+                        break
+                    else:
+                        print(self.log[i])
+
 
     def info(self):
         # Print user's card general information
-        # problem with uuid - it is different for that some person
-        print(f'You hawe: {self.ballance} usd money')
+
+        print(f'You have: {self.ballance} usd money')
         print(f'Your card number:{uuid.uuid4()}')
         print(f'You have:{len(self.log)} transaction')
 
@@ -70,9 +78,14 @@ fedor=User('Fedor_Ovchinkin')
 nikon=User('Nikodim_Rozetkin')
 bank=User('Bank')
 
-fedor.card.earn_money(100,bank)
-fedor.card.transaction(200,nikon,fedor)
-fedor.card.transaction(40,nikon,fedor)
 fedor.info()
-fedor.log()
-nikon.log()
+
+fedor.card.earn_money(200,bank)
+fedor.card.earn_money(300,bank)
+fedor.card.transaction(400,nikon,bank)
+fedor.card.earn_money(500,bank)
+fedor.card.transaction(180,nikon,fedor)
+fedor.info()
+nikon.info()
+fedor.log(23)
+nikon.log(-1)
