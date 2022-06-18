@@ -7,16 +7,17 @@ class User():
         self.card=Card()
 
     def info(self):
-        #function print vfin information about user and his card acount
+        #function print information about user and his card acount
         print(f'User name:{self.name}')
         self.card.info()
 
 
-    def log(self,H):
+    def log(self,N):
         #function connecting loggering function of the card with class User
-        self.card.loggering(H)
+        self.card.loggering(N)
 
 class Card:
+    # class Card is the argument of the class User
     default_ballance=0
 
     def __init__(self,ballance=default_ballance,log=None):
@@ -24,19 +25,19 @@ class Card:
         self.log=log or []
 
 
-    def loggering(self,H):
-        # log function, veriable "H" means have much operations shoud function print, if 'H' = -1 - all log are printing.
+    def loggering(self,N):
+        # log function, veriable "N" means have much last operations should print, if 'N' = -1 - all log are printing.
         lenght=len(self.log)
         if lenght==0:
             print("You haven't any activity")
         else:
             print(f'Your log of operations:')
-            if H==-1:
+            if N==-1:
                 for i in range(lenght-1,-1,-1):
                     print(self.log[i])
             else:
                 for i in range(lenght-1,-1,-1):
-                    if i==lenght-1-H:
+                    if i==lenght-1-N:
                         break
                     else:
                         print(self.log[i])
@@ -44,10 +45,9 @@ class Card:
 
     def info(self):
         # Print user's card general information
-
-        print(f'You have: {self.ballance} usd money')
-        print(f'Your card number:{uuid.uuid4()}')
-        print(f'You have:{len(self.log)} transaction')
+        print(f'You have: {self.ballance} usd money'
+              f'\nYour card number:{uuid.uuid4()}'
+              f'\nYou have:{len(self.log)} transaction')
 
 
     def earn_money(self,value,trans):
@@ -55,10 +55,9 @@ class Card:
         if value>0:
             self.ballance+=value
             self.log.append(
-                f'You resive {value} usd in your acount, from {trans.name} acoun total ballance is: {self.ballance}')
+                f'You resive {value} usd in your acount, from {trans.name} acount total ballance is: {self.ballance} usd.')
         else:
-            self.log.append('Error: you try to do something irrational')
-            print('Error: you cant earn this amount of money!')
+            self.log.append('Error: you cant earn this amount of money!')
 
 
 
@@ -67,25 +66,24 @@ class Card:
         if value<=self.ballance:
             self.ballance-=value
             recipient.card.earn_money(value,trans)
-            self.log.append(f'You have transacted {value} usd,from your acount, to the {recipient.name} acount, total ballance'
-                            f' is: {self.ballance} usd. ')
+            self.log.append(f'You have transacted {value} usd,from your acount, to the {recipient.name} acount,'
+                            f' total ballance is: {self.ballance} usd. ')
         else:
-            print(f"You dont have enought money")
-            self.log.append(f'Error: You dont have enought money for transacting {value} money to the {recipient.name}')
+            self.log.append(f'Error: You dont have enought money for transacting {value} usd to the {recipient.name}')
             
 
 fedor=User('Fedor_Ovchinkin')
 nikon=User('Nikodim_Rozetkin')
-bank=User('Bank')
+god=User('God')
 
-fedor.info()
-
-fedor.card.earn_money(200,bank)
-fedor.card.earn_money(300,bank)
-fedor.card.transaction(400,nikon,bank)
-fedor.card.earn_money(500,bank)
-fedor.card.transaction(180,nikon,fedor)
 fedor.info()
 nikon.info()
-fedor.log(23)
-nikon.log(-1)
+
+fedor.card.earn_money(200,nikon)
+fedor.card.earn_money(300,god)
+fedor.card.transaction(400,nikon,fedor)
+nikon.card.transaction(500,fedor,nikon)
+
+fedor.info()
+nikon.info()
+fedor.log(-1)
