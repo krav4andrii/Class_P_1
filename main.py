@@ -27,6 +27,7 @@ class Card:
 
     def loggering(self,N):
         # log function, veriable "N" means have much last operations should print, if 'N' = -1 - all log are printing.
+         # operations printing in reverse chronology
         lenght=len(self.log)
         if lenght==0:
             print("You haven't any activity")
@@ -50,40 +51,36 @@ class Card:
               f'\nYou have:{len(self.log)} transaction')
 
 
-    def earn_money(self,value,trans):
-        # Earn money function
-        if value>0:
-            self.ballance+=value
-            self.log.append(
-                f'You resive {value} usd in your acount, from {trans.name} acount total ballance is: {self.ballance} usd.')
-        else:
-            self.log.append('Error: you cant earn this amount of money!')
-
-
 
     def transaction(self,value,recipient,trans):
         # Transaction function with loggering in both logs (self and recipient)
-        if value<=self.ballance:
-            self.ballance-=value
-            recipient.card.earn_money(value,trans)
-            self.log.append(f'You have transacted {value} usd,from your acount, to the {recipient.name} acount,'
-                            f' total ballance is: {self.ballance} usd. ')
+        if value<0:
+            self.log.append(f"Error: You can't transacted {value} usd,from your acount!")
         else:
-            self.log.append(f'Error: You dont have enought money for transacting {value} usd to the {recipient.name}')
+            if value<=self.ballance:
+
+                self.ballance-=value
+                recipient.card.ballance+=value
+
+                self.log.append(f'You have transacted {value} usd,from your acount, to the {recipient.name} acount,'
+                                f' total ballance is: {self.ballance} usd. ')
+                recipient.card.log.append(f'You resive {value} usd in your acount, from {trans.name} acount total ballance '
+                                        f'is: {recipient.card.ballance} usd.')
+            else:
+                self.log.append(f'Error: You dont have enought money for transacting {value} usd to the {recipient.name}')
             
 
 fedor=User('Fedor_Ovchinkin')
 nikon=User('Nikodim_Rozetkin')
-god=User('God')
+fedor.card.ballance=1000
 
 fedor.info()
 nikon.info()
-
-fedor.card.earn_money(200,nikon)
-fedor.card.earn_money(300,god)
-fedor.card.transaction(400,nikon,fedor)
+fedor.card.transaction(100.52,nikon,fedor)
+fedor.card.transaction(-200,nikon,fedor)
+fedor.card.transaction(300,nikon,fedor)
 nikon.card.transaction(500,fedor,nikon)
-
 fedor.info()
 nikon.info()
 fedor.log(-1)
+nikon.log(-1)
